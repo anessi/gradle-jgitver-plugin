@@ -18,8 +18,10 @@ plugins {
     id "fr.brouillard.oss.gradle.jgitver" version "0.7.0"
 }
 
-apply plugin: 'java'
+apply plugin: 'java-gradle-plugin'
+apply plugin: 'groovy'
 apply plugin: 'maven'       // for local tests
+apply plugin: 'eclipse'
 apply plugin: 'se.bjurr.gitchangelog.git-changelog-gradle-plugin'
 
 group = 'fr.brouillard.oss.gradle'
@@ -58,6 +60,17 @@ pluginBundle {
 dependencies {
     compile gradleApi()
     compile "fr.brouillard.oss:jgitver:0.11.2"
+    
+    testCompile 'org.apache.logging.log4j:log4j-slf4j18-impl:2.11.1'
+    testCompile 'org.apache.logging.log4j:log4j-api:2.11.1'
+    testCompile 'org.apache.logging.log4j:log4j-core:2.11.1'
+    
+    testCompile gradleTestKit()
+    testCompile 'org.assertj:assertj-core:3.10.0'
+    testCompile 'junit:junit:4.12'
+    testCompile('org.spockframework:spock-core:1.1-groovy-2.4') {
+      exclude group: 'org.codehaus.groovy'
+    }
 }
 
 task changelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
